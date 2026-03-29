@@ -23,7 +23,7 @@ class Producto:
 
     def mostrar_informacion(self):
         return f"Codigo: {self.codigo}, Nombre: {self.nombre}, Categoria: {self.obtener_categoria()}, Precio: ${self.obtener_precio():.2f}, Stock: {self.stock}"
-
+# holaaaaa
 
 class Inventario:
     def __init__(self, nombre_tienda: str):

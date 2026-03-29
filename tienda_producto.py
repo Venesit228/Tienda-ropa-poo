@@ -1,0 +1,172 @@
+class Producto:
+    def __init__(self, codigo: str, nombre: str, categoria, precio, stock: int) -> None:
+        self.codigo: str = codigo
+        self.nombre: str = nombre
+        self.datos_basicos: tuple = (categoria, precio)
+        self.stock: int = stock
+
+    def obtener_categoria(self):
+        return self.datos_basicos[0]
+
+    def obtener_precio(self):
+        return self.datos_basicos[1]
+
+    def aumentar_stock(self, cantidad: int):
+        if cantidad > 0:
+            self.stock += cantidad
+
+    def disminuir_stock(self, cantidad: int):  # BUG 1 CORREGIDO: renombrado de disminuir_cantidad a disminuir_stock
+        if cantidad > 0 and cantidad <= self.stock:
+            self.stock -= cantidad
+            return True  # BUG 2 CORREGIDO: ahora retorna True/False para que el menú pueda saber si fue exitoso
+        return False
+
+    def mostrar_informacion(self):
+        return f"Código: {self.codigo}, Nombre: {self.nombre}, Categoría: {self.obtener_categoria()}, Precio: ${self.obtener_precio():.2f}, Stock: {self.stock}"
+
+
+class Inventario:
+    def __init__(self, nombre_tienda: str):
+        self.nombre_tienda: str = nombre_tienda
+        self.productos = []
+        self.resumen_categorias = {}
+
+    def agregar_producto(self, producto):
+        for p in self.productos:
+            if p.codigo == producto.codigo:
+                print("Ya existe un producto con este código.")
+                return p
+        self.productos.append(producto)  # BUG 3 CORREGIDO: movido fuera del for, antes estaba adentro y nunca agregaba
+
+    def buscar_producto_por_codigo(self, codigo: str):
+        for p in self.productos:
+            if p.codigo == codigo:
+                return p
+        return None
+
+    def listar_productos(self):
+        lista = []
+        for p in self.productos:
+            lista.append(p.mostrar_informacion())
+        return lista
+
+    def mostrar_productos_por_categoria(self, categoria):
+        lista = []
+        for p in self.productos:
+            if p.obtener_categoria() == categoria:  # BUG 4 CORREGIDO: faltaban los paréntesis () para llamar el método
+                lista.append(p.mostrar_informacion())
+        return lista  # BUG 5 CORREGIDO: el return estaba dentro del for, ahora está fuera
+
+    def actualizar_resumen_categorias(self):
+        self.resumen_categorias = {}
+        for p in self.productos:  # BUG 6 CORREGIDO: iteraba sobre self.resumen_categorias (vacío) en vez de self.productos
+            categoria = p.obtener_categoria()
+            if categoria in self.resumen_categorias:
+                self.resumen_categorias[categoria] += 1
+            else:
+                self.resumen_categorias[categoria] = 1
+
+    def mostrar_resumen_categorias(self):
+        self.actualizar_resumen_categorias()
+        lista = []
+        for categoria, cantidad in self.resumen_categorias.items():
+            lista.append(f"{categoria}: {cantidad}")
+        return lista
+
+
+# BUG 7 CORREGIDO: inventario = True  →  inventario = Inventario("Mi Tienda")
+inventario = Inventario("Mi Tienda de Ropa")
+
+while True:
+    print("\n===== MENÚ INVENTARIO =====")
+    print("1. Agregar producto")
+    print("2. Listar productos")
+    print("3. Buscar producto por código")
+    print("4. Mostrar productos por categoría")
+    print("5. Mostrar resumen de categorías")
+    print("6. Aumentar stock de un producto")
+    print("7. Disminuir stock de un producto")
+    print("8. Salir")
+
+    opcion = input("Seleccione una opción: ")
+
+    # 1. Agregar producto
+    if opcion == "1":
+        codigo = input("Código: ")
+        nombre = input("Nombre: ")
+        categoria = input("Categoría: ")
+        precio = float(input("Precio: "))
+        stock = int(input("Stock: "))
+
+        producto = Producto(codigo, nombre, categoria, precio, stock)
+        inventario.agregar_producto(producto)
+        print("Producto agregado correctamente.")
+
+    # 2. Listar productos
+    elif opcion == "2":
+        productos = inventario.listar_productos()
+        if not productos:
+            print("No hay productos registrados.")
+        else:
+            for p in productos:
+                print(p)
+
+    # 3. Buscar producto por código
+    elif opcion == "3":
+        codigo = input("Ingrese el código del producto: ")
+        producto = inventario.buscar_producto_por_codigo(codigo)  # BUG 8 CORREGIDO: nombre correcto del método
+        if producto:
+            print(producto.mostrar_informacion())
+        else:
+            print("Producto no encontrado.")
+
+    # 4. Mostrar productos por categoría
+    elif opcion == "4":
+        categoria = input("Ingrese la categoría: ")
+        productos = inventario.mostrar_productos_por_categoria(categoria)  # BUG 9 CORREGIDO: nombre correcto del método
+        if not productos:
+            print("No hay productos en esta categoría.")
+        else:
+            for p in productos:
+                print(p)
+
+    # 5. Mostrar resumen de categorías
+    elif opcion == "5":
+        resumen = inventario.mostrar_resumen_categorias()  # BUG 10 CORREGIDO: nombre correcto del método
+        if not resumen:
+            print("No hay productos registrados.")
+        else:
+            for linea in resumen:
+                print(linea)
+
+    # 6. Aumentar stock
+    elif opcion == "6":
+        codigo = input("Código del producto: ")
+        cantidad = int(input("Cantidad a aumentar: "))
+        producto = inventario.buscar_producto_por_codigo(codigo)  # BUG 11 CORREGIDO: nombre correcto del método
+        if producto:
+            producto.aumentar_stock(cantidad)
+            print("Stock actualizado.")
+        else:
+            print("Producto no encontrado.")
+
+    # 7. Disminuir stock
+    elif opcion == "7":
+        codigo = input("Código del producto: ")
+        cantidad = int(input("Cantidad a disminuir: "))
+        producto = inventario.buscar_producto_por_codigo(codigo)  # BUG 12 CORREGIDO: nombre correcto del método
+        if producto:
+            if producto.disminuir_stock(cantidad):  # BUG 13 CORREGIDO: nombre correcto del método
+                print("Stock actualizado.")
+            else:
+                print("No hay suficiente stock.")
+        else:
+            print("Producto no encontrado.")
+
+    # 8. Salir
+    elif opcion == "8":
+        print("Saliendo del sistema...")
+        break
+
+    else:
+        print("Opción inválida. Intente nuevamente.")

@@ -10,7 +10,25 @@ class Producto:
 
     def obtener_precio(self):
         return self.datos_basicos[1]
+        
+    def aplicar_descuento(self, porcentaje):
+        if porcentaje > 0 and porcentaje < 100:
+            precio_nuevo = self.obtener_precio() - (self.obtener_precio() * porcentaje / 100)
+            self.datos_basicos = (self.obtener_categoria(), round(precio_nuevo, 2))
+            return True
+        return False
 
+    def esta_agotado(self):
+        if self.stock == 0:
+            return True
+        return False
+
+    def cambiar_categoria(self, nueva_categoria):
+        if nueva_categoria != "":
+            self.datos_basicos = (nueva_categoria, self.obtener_precio())
+            return True
+        return False
+    
     def aumentar_stock(self, cantidad: int):
         if cantidad > 0:
             self.stock += cantidad
@@ -108,7 +126,10 @@ while True:
     print("9.  Buscar producto por nombre")
     print("10. Eliminar producto")
     print("11. Mostrar producto mas caro")
-
+    print("12. Aplicar descuento a un producto")
+    print("13. Mostrar productos agotados")
+    print("14. Cambiar categoria de un producto")
+    
     opcion = input("Seleccione una opcion: ")
 
     if opcion == "1":
@@ -199,6 +220,39 @@ while True:
             print(producto.mostrar_informacion())
         else:
             print("No hay productos registrados.")
+
+    elif opcion == "12":
+        codigo = input("Codigo del producto: ")
+        producto = inventario.buscar_producto_por_codigo(codigo)
+        if producto != None:
+            porcentaje = float(input("Porcentaje de descuento (ejemplo: 10 para 10%): "))
+            if producto.aplicar_descuento(porcentaje):
+                print("Descuento aplicado. Nuevo precio: $" + str(producto.obtener_precio()))
+            else:
+                print("El porcentaje debe ser entre 0 y 100.")
+        else:
+            print("Producto no encontrado.")
+
+    elif opcion == "13":
+        hay_agotados = False
+        for p in inventario.productos:
+            if p.esta_agotado() == True:
+                print(p.mostrar_informacion())
+                hay_agotados = True
+        if hay_agotados == False:
+            print("No hay productos agotados.")
+
+    elif opcion == "14":
+        codigo = input("Codigo del producto: ")
+        producto = inventario.buscar_producto_por_codigo(codigo)
+        if producto != None:
+            nueva_categoria = input("Nueva categoria: ")
+            if producto.cambiar_categoria(nueva_categoria):
+                print("Categoria actualizada correctamente.")
+            else:
+                print("La categoria no puede estar vacia.")
+        else:
+            print("Producto no encontrado.")
 
     elif opcion == "8":
         print("Saliendo del sistema...")

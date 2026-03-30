@@ -185,3 +185,27 @@ while True:
 
     else:
         print("Opcion invalida. Intente nuevamente.")
+    
+    elif opcion == "9":
+        nombre = input("Ingrese el nombre del producto: ")
+        resultados = inventario.buscar_por_nombre(nombre)
+        if len(resultados) == 0:
+            print("No se encontraron productos con ese nombre.")
+        else:
+            for p in resultados:
+                print(p.mostrar_informacion())
+    
+    elif opcion == "10":
+        codigo = input("Codigo del producto a eliminar: ")
+        if inventario.eliminar_producto(codigo):
+            print("Producto eliminado correctamente.")
+        else:
+            print("Producto no encontrado.")
+    
+    elif opcion == "11":
+        producto = inventario.producto_mas_caro()
+        if producto != None:
+            print("Producto mas caro:")
+            print(producto.mostrar_informacion())
+        else:
+            print("No hay productos registrados.")

@@ -108,6 +108,9 @@ while True:
     print("6. Aumentar stock de un producto")
     print("7. Disminuir stock de un producto")
     print("8. Salir")
+    print("9.  Buscar producto por nombre")
+    print("10. Eliminar producto")
+    print("11. Mostrar producto mas caro")
 
     opcion = input("Seleccione una opcion: ")
 

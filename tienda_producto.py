@@ -44,27 +44,27 @@ class Inventario:
                 return p
         return None
     def buscar_por_nombre(self, nombre):
-    resultados = []
-    for p in self.productos:
-        if nombre in p.nombre:
-            resultados.append(p)
-    return resultados
+        resultados = []
+        for p in self.productos:
+            if nombre in p.nombre:
+                resultados.append(p)
+        return resultados
 
-def eliminar_producto(self, codigo):
-    for i in range(len(self.productos)):
+    def eliminar_producto(self, codigo):
+     for i in range(len(self.productos)):
         if self.productos[i].codigo == codigo:
             del self.productos[i]
             return True
-    return False
+        return False
 
-def producto_mas_caro(self):
-    if len(self.productos) == 0:
-        return None
-    mas_caro = self.productos[0]
-    for p in self.productos:
-        if p.obtener_precio() > mas_caro.obtener_precio():
-            mas_caro = p
-    return mas_caro
+    def producto_mas_caro(self):
+        if len(self.productos) == 0:
+            return None
+        mas_caro = self.productos[0]
+        for p in self.productos:
+            if p.obtener_precio() > mas_caro.obtener_precio():
+                mas_caro = p
+        return mas_caro
 
     def listar_productos(self):
         lista = []
@@ -94,7 +94,6 @@ def producto_mas_caro(self):
         for categoria, cantidad in self.resumen_categorias.items():
             lista.append(f"{categoria}: {cantidad}")
         return lista
-
 
 inventario = Inventario("Mi Tienda de Ropa")
 

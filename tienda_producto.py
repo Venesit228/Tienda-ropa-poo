@@ -122,13 +122,14 @@ while True:
     print("5. Mostrar resumen de categorias")
     print("6. Aumentar stock de un producto")
     print("7. Disminuir stock de un producto")
-    print("8. Salir")
-    print("9.  Buscar producto por nombre")
-    print("10. Eliminar producto")
-    print("11. Mostrar producto mas caro")
-    print("12. Aplicar descuento a un producto")
-    print("13. Mostrar productos agotados")
-    print("14. Cambiar categoria de un producto")
+    print("8.  Buscar producto por nombre")
+    print("9. Eliminar producto")
+    print("10. Mostrar producto mas caro")
+    print("11. Aplicar descuento a un producto")
+    print("12. Mostrar productos agotados")
+    print("13. Cambiar categoria de un producto")
+    print("14. Salir")
+    
     
     opcion = input("Seleccione una opcion: ")
 
@@ -197,7 +198,7 @@ while True:
         else:
             print("Producto no encontrado.")
 
-    elif opcion == "9":
+    elif opcion == "8":
         nombre = input("Ingrese el nombre del producto: ")
         resultados = inventario.buscar_por_nombre(nombre)
         if len(resultados) == 0:
@@ -206,14 +207,14 @@ while True:
             for p in resultados:
                 print(p.mostrar_informacion())
 
-    elif opcion == "10":
+    elif opcion == "9":
         codigo = input("Codigo del producto a eliminar: ")
         if inventario.eliminar_producto(codigo):
             print("Producto eliminado correctamente.")
         else:
             print("Producto no encontrado.")
 
-    elif opcion == "11":
+    elif opcion == "10":
         producto = inventario.producto_mas_caro()
         if producto != None:
             print("Producto mas caro:")
@@ -221,7 +222,7 @@ while True:
         else:
             print("No hay productos registrados.")
 
-    elif opcion == "12":
+    elif opcion == "11":
         codigo = input("Codigo del producto: ")
         producto = inventario.buscar_producto_por_codigo(codigo)
         if producto != None:
@@ -233,7 +234,7 @@ while True:
         else:
             print("Producto no encontrado.")
 
-    elif opcion == "13":
+    elif opcion == "12":
         hay_agotados = False
         for p in inventario.productos:
             if p.esta_agotado() == True:
@@ -242,7 +243,7 @@ while True:
         if hay_agotados == False:
             print("No hay productos agotados.")
 
-    elif opcion == "14":
+    elif opcion == "13":
         codigo = input("Codigo del producto: ")
         producto = inventario.buscar_producto_por_codigo(codigo)
         if producto != None:
@@ -254,7 +255,7 @@ while True:
         else:
             print("Producto no encontrado.")
 
-    elif opcion == "8":
+    elif opcion == "14":
         print("Saliendo del sistema...")
         break
 

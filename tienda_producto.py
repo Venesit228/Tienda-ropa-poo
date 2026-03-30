@@ -23,7 +23,6 @@ class Producto:
 
     def mostrar_informacion(self):
         return f"Codigo: {self.codigo}, Nombre: {self.nombre}, Categoria: {self.obtener_categoria()}, Precio: ${self.obtener_precio():.2f}, Stock: {self.stock}"
-# holaaaaa
 
 class Inventario:
     def __init__(self, nombre_tienda: str):
@@ -55,7 +54,7 @@ class Inventario:
         if self.productos[i].codigo == codigo:
             del self.productos[i]
             return True
-        return False
+    return False
 
     def producto_mas_caro(self):
         if len(self.productos) == 0:

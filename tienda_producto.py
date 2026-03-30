@@ -50,12 +50,11 @@ class Inventario:
         return resultados
 
     def eliminar_producto(self, codigo):
-     for i in range(len(self.productos)):
-        if self.productos[i].codigo == codigo:
-            del self.productos[i]
-            return True
-    return False
-
+        for i in range(len(self.productos)):
+            if self.productos[i].codigo == codigo:
+                del self.productos[i]
+                return True
+        return False
     def producto_mas_caro(self):
         if len(self.productos) == 0:
             return None
